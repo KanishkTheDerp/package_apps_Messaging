@@ -71,6 +71,9 @@ public abstract class UIIntents {
     public static final String ACTION_RESET_NOTIFICATIONS =
             "com.android.messaging.reset_notifications";
 
+    public static final String ACTION_MARK_AS_READ =
+            "com.android.messaging.mark_as_read";
+
     // Sending VCard uri to VCard detail activity
     public static final String UI_INTENT_EXTRA_VCARD_URI = "vcard_uri";
 

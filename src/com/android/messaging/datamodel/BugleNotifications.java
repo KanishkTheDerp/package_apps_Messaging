@@ -737,7 +737,8 @@ public class BugleNotifications {
             }
 
             addDownloadMmsAction(notifBuilder, wearableExtender, notificationState);
-            addWearableVoiceReplyAction(notifBuilder, wearableExtender, notificationState);
+            addReplyAction(notifBuilder, wearableExtender, notificationState);
+            addReadAction(notifBuilder, wearableExtender, notificationState);
         }
 
         // Apply the wearable options and build & post the notification
@@ -761,7 +762,23 @@ public class BugleNotifications {
         }
     }
 
-    private static void addWearableVoiceReplyAction(final NotificationCompat.Builder notifBuilder,
+    private static void maybeAddWearableConversationLog(
+            final WearableExtender wearableExtender,
+            final MultiMessageNotificationState notificationState) {
+        if (!isWearCompanionAppInstalled()) {
+            return;
+        }
+        final String convId = notificationState.mConversationIds.first();
+        ConversationLineInfo convInfo = notificationState.mConvList.mConvInfos.get(0);
+        final Notification page = MessageNotificationState.buildConversationPageForWearable(
+                convId,
+                convInfo.mParticipantCount);
+        if (page != null) {
+            wearableExtender.addPage(page);
+        }
+    }
+
+    private static void addReplyAction(final NotificationCompat.Builder notifBuilder,
             final WearableExtender wearableExtender, final NotificationState notificationState) {
         if (!(notificationState instanceof MultiMessageNotificationState)) {
             return;
